@@ -13,8 +13,8 @@ entidades_p= pd.read_csv("https://raw.githubusercontent.com/fdealbam/censo2020/m
 
 # Falta un identificador de la base 1) entidad 2)mpios
 
-df = entidades_s[entidades_s.ENTIDAD == 09]
-df_p = entidades_p[entidades_p.ENTIDAD == 09]
+df = entidades_s[entidades_s.ENTIDAD == 9]
+df_p = entidades_p[entidades_p.ENTIDAD == 9]
 
 
 noment = df.iloc[0]["NOM_ENT"]
@@ -1241,7 +1241,7 @@ card_econom4 = dbc.Card(
                            "color": "white",
                             "height": "7px",
                           "background-color": "#0097A7"}),
-            html.H5(f"{int(poblacioninactiva_s):,}", 
+            html.H5(f"{int(poblacion12ymasdesocupada_s):,}", 
                     style={'textAlign': 'left',
                             "height": "7px",
                            "color": "white",
