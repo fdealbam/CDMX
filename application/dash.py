@@ -1747,7 +1747,7 @@ body = html.Div([
  
     dbc.Row(
            [   #mapa de la entidad 
-               dbc.Col(dbc.Button(dbc.CardImg(src="https://github.com/fdealbam/censo2020/blob/b94700a88ff29ebb35f6bc6e578e5c30a0266f40/1nleona.png?raw=true"),
+               dbc.Col(dbc.Button(dbc.CardImg(src="https://github.com/fdealbam/censo2020/blob/b94700a88ff29ebb35f6bc6e578e5c30a0266f40/1cdmx.png?raw=true"),
                          #href="https://censo2020-mexico.herokuapp.com/",
                                style={"background-color": "transparent"}),
                       md={"size": 3,},
