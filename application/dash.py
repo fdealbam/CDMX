@@ -1,4 +1,4 @@
-#CDMX 
+#NUEVO LEON 
 
 import os
 import pandas as pd
@@ -12,7 +12,6 @@ entidades_p= pd.read_csv("https://raw.githubusercontent.com/fdealbam/censo2020/m
 
 
 # Falta un identificador de la base 1) entidad 2)mpios
-
 df = entidades_s[entidades_s.ENTIDAD == 9]
 df_p = entidades_p[entidades_p.ENTIDAD == 9]
 
@@ -35,7 +34,7 @@ derechopriv_s                                        = df.PAFIL_IPRIV.sum()  # P
 poblacion15ymasanalfabeta_s                          = df.P15YM_AN.sum()    # Población de 15 años y más analfabeta             
 poblacion15ymasconsecundaria_s                       = df.P15SEC_CO.sum()   # Población de 15 años y más con secundaria completa
 poblacion15ymasconposbasica_s                        = df.P18YM_PB.sum()    # Población de 18 años y más con educación posbásica
-#Agregadas nuevas variables de educación :)
+
 
 
 
@@ -82,6 +81,7 @@ poblacionOcupada_s                                   = df.POCUPADA.sum()     # p
 poblacionMasculinaOcupada_s                          = df.POCUPADA_M.sum()   # Población femenina de 12 años y más desocupada           
 poblacionFemeninaOcupada_s                           = df.POCUPADA_F.sum()   # Población masculina de 12 años y más ocupada                                           
 poblacion12ymasdesocupada_s                          = df.PDESOCUP.sum()     # Población de 12 años y más desocupada  
+poblacioninactiva_s                                  = df.PE_INAC.sum()                       
 
 
 #----------------------------------------------------Variables de Religión 
@@ -103,15 +103,18 @@ poblaciontotalenhogares_s                            = df.POBHOG.sum()       # P
 promediodeocupantesporvivienda                      =  df.PROM_OCUP.sum()    #Promedio de ocupantes en viviendas particulares habitadas
 
 
-###############################################################################
 
 
 
-# PORCETAJES
+############################################################################### PORCEnTAJES
+
+
+
+# PORCEnTAJES
 #---------------------------------Pob Total
 #ptotal_p                                             = df_p['POBTOT_%'].sum()
-#pfemto_p                                             = df_p['POBFEM_%'].sum()
-#pmascu_p                                             = df_p['POBMAS_%'].sum()
+pfemto_p                                             = (df_p['POBFEM_%'].sum()).round(1)
+pmascu_p                                             = df_p['POBMAS_%'].sum()
 
 #---------------------------------Derechohabiencia
 sinderechohabiencia_p                                = df_p['PSINDER_%'].sum()
@@ -165,7 +168,7 @@ poblacionde15añosymasnacidaotraentidad_p             = df_p['PRESOE15_%'].sum()
 poblacionOcupada_p                                   = (df_p['POCUPADA_%'].sum()).round(1)              
 poblacionMasculinaOcupada_p                          = (df_p['POCUPADA_M_%'].sum()).round(1)              
 poblacionFemeninaOcupada_p                           = (df_p['POCUPADA_F_%'].sum()).round(1)                                             
-poblacioninactiva_p                                 = (df_p['PE_INAC_%'].sum()).round(1)                       
+poblacioninactiva_p                                  = (df_p['PE_INAC_%'].sum()).round(1)                       
 poblacion12ymasdesocupada_p                          = (df_p['PDESOCUP_%'].sum()).round(1)     
 
 
@@ -206,7 +209,7 @@ import sidetable as stb
 import datetime
 from datetime import datetime, timedelta
 from datetime import date
-import geopandas as gpd
+#import geopandas as gpd
 import flask
 import os
 yesterday = datetime.now() - timedelta(1)
@@ -308,7 +311,7 @@ card = dbc.Card(
             
             
             
-            #Primaria cambió :
+            # 15 años y más analfabeta
             html.P(
                 "Población de 15 años y más analfabeta "   #verificar este campo (alfabeta* o analfabeta)
                f"{int(poblacion15ymasanalfabeta_s):,}",    
@@ -324,7 +327,7 @@ card = dbc.Card(
                                html.H1(className="fas fa-user-graduate", style={"color": "#E0E0E0"}),
                           ]),),
             
-            #%
+            # % 15 años y más analfabeta
              html.P([(poblacion15ymasanalfabeta_p),"%"] ,
                   className="card-text",
                   style={'textAlign': 'right',
@@ -357,7 +360,6 @@ card = dbc.Card(
 
                           ],style={"align" :"center",
                                    'margin-left': '-30px',
-                                   #'margin-right': '120px',
                                   }),),
             
              html.P(
@@ -375,12 +377,6 @@ card = dbc.Card(
                                html.H1(className="fas fa-wheelchair", style={"color": "#E0E0E0"}),]),),
             html.P([(condiscapacidad_p),"%"] , 
                   className="card-text",
-#                     style={'textAlign': 'center',
-#                         "color": "black",  
-#                         "font-size": "40px",
-#                         "font-weight": 'bold',
-#                        "color": "dark",
-#                        "height": "30px",}),
                     style={'textAlign': 'right',
                          "color": "black",  
                          "font-size": "48px",
@@ -391,9 +387,7 @@ card = dbc.Card(
     
     style={"width": "22.5rem", 
           "border": "0",
-           "card-border": "0",
-           # 'margin-left': '-30px'
-          },
+           "card-border": "0"},
 )
 
 
@@ -409,45 +403,59 @@ card = dbc.Card(
 
 card2 = dbc.Card(
     dbc.CardBody(
-        [                #Falta Poblacion masculina y femenina
+        [   
+             #Falta Poblacion total
             html.H6("Población total", 
-                    style={'textAlign': 'left',
+                    style={#'textAlign': 'left',
                            "color": "white",
                           "background-color": "orange"}),
             html.H3(f"{int(ptotal_s):,}",
-                    style={'textAlign': 'left',
+                    style={#'textAlign': 'left',
                            "color": "white",
                           "background-color": "orange"}),
-            html.Br(),
-       
-            dbc.ButtonGroup(
-                html.Span(["", html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),
-                               html.H1(className="fas fa-male", style={"background-color": "orange","color":"white"}),]),),
+            dbc.Button(
+                html.Span([html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                           html.H1(className="fas fa-male", style={"color":   "white"}),
+                           html.H1(className="fas fa-female", style={"color": "white"}),
+                          ],style={#"background-color": "orange"
+                                  }),style={"background-color": "orange"}),
+
             
-        ]
-    ),
-    
-    style={"width": "25.5rem", 
-          "border": "0",
-          "background-color": "orange"
-          },
-)
+              #Falta Poblacion masculina y femenina
+#             html.Span([
+#                html.H6([pfemto_p, "%  "], style={"color": "white", "background-color": "orange"}), 
+#                html.H1(className="fas fa-female",  
+#                                  style={"color": "white", "background-color": "orange"}),
+#
+#                html.H6([pmascu_p, "%  "], style={"color": "white", "background-color": "orange"}), 
+#                html.H1(className="fas fa-male",  
+#                                  style={"color": "white", "background-color": "orange"}),
+# 
+#        ]),
+                           
+        ]), 
+                            style={"width": "25rem", 
+                                   "border": "0",
+                                   "margin-left": "-10px",
+                                   #"height": "10px",
+                                   "background-color": "orange",
+                                  },) 
 
-
-  
-    
-     
+            
 
 card21 = dbc.Card(
     dbc.CardBody(
@@ -463,7 +471,8 @@ card21 = dbc.Card(
                            "color": "white",
                           "background-color": "#0097A7"}),
            
-                     html.P([(de0a2años_p),"%"] , #"64%", 
+          
+            html.P([(de0a2años_p),"%"] , #"64%", 
                   style={'textAlign': 'right',
                          "color": "white",
                             "height": "7px",
@@ -845,55 +854,102 @@ card3 = dbc.Card(
 card2p3 = dbc.Card(
     dbc.CardBody(
         [
-         dbc.Button((["", html.H1(className="fas fa-wifi", style={"color": "black",
+         dbc.Button((["", html.H3(className="fas fa-wifi", style={"color": "black",
                                                                  "background-color": "light"}),
                  html.H6(" Con internet ",
                         style={"color":"black",
+                               "font-size":10,
                                 "background-color": "light"}),
-                 html.H1([(coninternet_p),"%"],#"97%",
+                 html.H4([(coninternet_p),"%"],#"97%",
                         style={"color":"#FBC02D",
                                 "background-color": "light"}),
                  html.P(f"{int(coninternet_s):,}", style={"font-size":10}),                      
         ]),style={ "background-color": "light"}),
 
             
-         dbc.Button((["", html.H1(className="fas fa-tv", 
+         dbc.Button((["", html.H3(className="fas fa-tv", 
                                   style={"color": "lightgray",
                                          "background-color": "light"}),
                  html.H6(" Con televisor ", 
                          style={"color":"lightgray",
+                                 "font-size":10,
                                 "background-color": "light"}),
-                 html.H1([(contelevisor_p),"%"],#"97%",  
+                 html.H4([(contelevisor_p),"%"],#"97%",  
                          style={"color":"#FBC02D",
                                 "background-color": "light"}),
                  html.P(f"{int(contelevisor_s):,}",  style={"font-size":10}),                      
         ]),style={ "background-color": "light"}),
 
-         dbc.Button((["", html.H1(className="fas fa-laptop", style={"color": "lightgray",
+         dbc.Button((["", html.H3(className="fas fa-laptop", style={"color": "lightgray",
                                                                    "background-color": "light"}),
                  html.H6(" Con computadora ",
                          style={"color":"lightgray",
+                                 "font-size":10,
                                 "background-color": "light"}),
-                 html.H1([(concomputadora_p),"%"],#"97%",
+                 html.H4([(concomputadora_p),"%"],#"97%",
                         style={"color":"#FBC02D",
                                 "background-color": "light"}),# 
                  html.P(f"{int(concomputadora_s):,}", style={"font-size":10}),                      
         ]),style={ "background-color": "light"}),
             
 
-         dbc.Button((["", html.H1(className="fas fa-mobile-alt", style={"color": "black",
+         dbc.Button((["", html.H3(className="fas fa-mobile-alt", style={"color": "black",
                                                                        "background-color": "light"}),
                  html.H6(" Con celular ",
                         style={"color":"black",
+                                "font-size":10,
                                 "background-color": "light"}),
-                 html.H1([(concelular_p),"%"],#"97%",
+                 html.H4([(concelular_p),"%"],#"97%",
                         style={"color":"#FBC02D",
                                 "background-color": "light"}),
                  html.P(f"{int(concelular_s):,}", style={"font-size":10}),                      
         ]),style={ "background-color": "light"}),
+        
+#poner aqui refrigerador            
+         dbc.Button((["", html.H3(className="fas fa-mobile-alt", style={"color": "black",
+                                                                       "background-color": "light"}),
+                 html.H6(" Con refrigerador ",
+                        style={"color":"black",
+                                "font-size":10,
+                                "background-color": "light"}),
+                 html.H4([(conrefrigerador_p),"%"],#"97%",
+                        style={"color":"#FBC02D",
+                                "background-color": "light"}),
+                 html.P(f"{int(conrefrigerador_s):,}", style={"font-size":10}),                      
+        ]),style={ "background-color": "light"}),
+            
+
+#poner aqui lavadora            
+         dbc.Button((["", html.H3(className="fas fa-washer", style={"color": "black",
+                                                                       "background-color": "light"}),
+                 html.H6(" Con lavadora ",
+                        style={"color":"black",
+                                "font-size":10,
+                                "background-color": "light"}),
+                 html.H4([(conlavadora_p),"%"],#"97%",
+                        style={"color":"#FBC02D",
+                                "background-color": "light"}),
+                 html.P(f"{int(conlavadora_s):,}", style={"font-size":10}),                      
+        ]),style={ "background-color": "light"}),
+
+
+#poner aqui bicicleta            
+         dbc.Button((["", html.H2(className="fas fa-bicycle", style={"color": "black",
+                                                                       "background-color": "light"}),
+                 html.H6(" Con bicicleta",
+                        style={"color":"black",
+                                "font-size":10,
+                                "background-color": "light"}),
+                 html.H4([(conbici_p),"%"],#"97%",
+                        style={"color":"#FBC02D",
+                                "background-color": "light"}),
+                 html.P(f"{int(conbici_s):,}", style={"font-size":10}),                      
+        ]),style={ "background-color": "light"}),
             
      
-        ]), style={"width": "50rem", 
+        ]), style={"width": "45rem",
+                   "margin-left": "46.5px",
+                   "margin-right": "46.5px",
                    "border": "0",
                    "background-color": "light",
                   "outline": "white"
@@ -1241,7 +1297,7 @@ card_econom4 = dbc.Card(
                            "color": "white",
                             "height": "7px",
                           "background-color": "#0097A7"}),
-            html.H5(f"{int(poblacion12ymasdesocupada_s):,}", 
+            html.H5(f"{int(poblacioninactiva_s):,}", 
                     style={'textAlign': 'left',
                             "height": "7px",
                            "color": "white",
@@ -1664,10 +1720,10 @@ nav_item3 = dbc.NavItem(dbc.NavLink("Metrópolis", href="#"))
 
 default = dbc.NavbarSimple(
     children=[nav_item1,nav_item2,nav_item3],
-    brand="MENU",
+    brand="MENU",  style={"font-size": "12px"},
     brand_href="#",
     sticky="top",
-    className="mb-5",
+    className="mb-12",
 )
 
 body = html.Div([
@@ -1677,8 +1733,9 @@ body = html.Div([
                         ),width ={ "size": 1,  "offset": 1,
                                   "height": "5px"}),
                dbc.Col(html.H4("Reporte estadístico básico de ",
-                        style={'offset' : 1, "size": 6,
-                              "font-size": "15px",
+                        style={'offset' : 0, "size": 6,
+                              "margin-left": "-122px",
+                               "font-size": "12px",
                               "color": "grey",
                                "height": "5px",
                               'textAlign': 'center',
@@ -1942,4 +1999,3 @@ app.layout = html.Div(
 
 if __name__ == '__main__':
     app.run_server(use_reloader = False)
- 
