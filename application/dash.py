@@ -1764,7 +1764,7 @@ body = html.Div([
                
                       ], justify= "start"), 
                dbc.Col(dbc.CardImg(src="https://github.com/fdealbam/0entrada/blob/main/application/static/logo%20cesopycamara1.PNG?raw=true"),
-                        width=5, md={'size': 3,  "offset": 6, 
+                        width=5, md={'size': 3,  "offset": 1, 
                                   "height": "5px"}),
                dbc.Col(html.H4("Reporte estadístico básico de ",
                         style={'offset' : 0, "size": 5,
